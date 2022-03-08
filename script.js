@@ -24,7 +24,9 @@ function gameRound(computerPlay,userPlay) {
         console.log("The game ended in a draw:no winner")
     }
 
-    else if ((computerSelection==="rock" && userSelection==="scissors")  || (computerSelection==="paper" && userSelection==="rock") || (computerSelection==="scissors" && userSelection==="paper")) {
+    else if ((computerSelection==="rock" && userSelection==="scissors")  ||
+                 (computerSelection==="paper" && userSelection==="rock") || 
+                    (computerSelection==="scissors" && userSelection==="paper")) {
         console.log(`Computer won: ${computerSelection} beats ${userSelection}!`);
         computerScore+=1;
     }
