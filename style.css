@@ -1,0 +1,13 @@
+*{
+    background-color: black;
+    color: white;
+    box-shadow: none;
+    border:none;
+}
+
+.rock,
+.paper,
+.scissors{
+    height: 500px;
+    width: auto;
+}
