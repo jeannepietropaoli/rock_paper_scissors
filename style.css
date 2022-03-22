@@ -53,3 +53,8 @@ th {
 td{
     height: 30px;
 }
+
+table img {
+    width: 100px;
+    height: 100px;
+}

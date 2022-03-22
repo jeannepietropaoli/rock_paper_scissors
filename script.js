@@ -8,7 +8,9 @@ const results = document.querySelector('.results');
 const signScorePlayer = document.querySelector('.signScorePlayer');
 const signScoreComputer = document.querySelector('.signScoreComputer');
 const miniGameResult = document.querySelector('.results');
-const gameReslut=document.querySelector('.gameResult')
+const gameReslut=document.querySelector('.gameResult');
+const signScoreLogoPlayer = document.querySelector('.signScoreLogoPlayer');
+const signScoreLogoComputer = document.querySelector('.signScoreLogoComputer');
 gameReslut.textContent='Who will win the game?';
 
 displayScore()
@@ -24,12 +26,12 @@ function computerPlay(){
     computerPick= Math.floor(Math.random() * 3);
     (computerPick===0)?computerSelection="rock":
         (computerPick===1)?computerSelection="paper":computerSelection="scissors";
-    signScoreComputer.textContent = (`Computer chose ${computerSelection}`);
+    signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black.png`);
     return computerSelection;
 }
 
 function userPlay(){
-    signScorePlayer.textContent = (`Player chose ${userSelection}`);
+    signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black.png`);
         return userSelection;
 }
 
@@ -90,8 +92,8 @@ playButtons.forEach((playButton) => {
                     userScore=0;
                     computerScore=0;
                     displayScore();
-                    signScorePlayer.textContent = '';
-                    signScoreComputer.textContent = '';
+                    signScoreLogoPlayer.setAttribute('src', 'pic/black.jpg');
+                    signScoreLogoComputer.setAttribute('src', 'pic/black.jpg');
                     miniGameResult.textContent = '';
                     gameReslut.textContent = '';
                     playAgainButton.remove();
