@@ -2,20 +2,19 @@ let computerSelection;
 let userSelection;
 let computerScore=0;
 let userScore=0;
-const playButtons = document.querySelectorAll('button');
+let isGameRunning=true;
+const playButtons = document.querySelectorAll('.button');
 const results = document.querySelector('.results');
 
 let userResult = document.createElement('p');
-results.appendChild(userResult);   //crée le paragraphe des resultats de User
 
 let computerResult = document.createElement('p');
-results.appendChild(computerResult);   //crée le paragraphe des resultats de Computer
 
 let miniGameResult = document.createElement('p');
-results.appendChild(miniGameResult);     //crée le paragraphe des resultats de chaque MiniGame
 
 let gameResult = document.createElement('p');
 results.appendChild(gameResult); 
+
 
 let score = document.querySelector('.score');
 displayScore()
@@ -25,6 +24,7 @@ function displayScore() {
 }
 
 function computerPlay(){
+    results.appendChild(computerResult);   //crée le paragraphe des resultats de Computer
     computerPick= Math.floor(Math.random() * 3);
     (computerPick===0)?computerSelection="rock":
         (computerPick===1)?computerSelection="paper":computerSelection="scissors";
@@ -33,6 +33,7 @@ function computerPlay(){
 }
 
 function userPlay(){
+    results.appendChild(userResult);   //crée le paragraphe des resultats de User
     userResult.textContent = (`Player chose ${userSelection}`);
         return userSelection;
 }
@@ -40,6 +41,7 @@ function userPlay(){
 function gameRound(computerPlay,userPlay) {
     userPlay()
     computerPlay();
+    results.appendChild(miniGameResult);     //crée le paragraphe des resultats de chaque MiniGame
 
     if (computerSelection===userSelection){
         miniGameResult.textContent = "The game ended in a draw:no winner";
@@ -58,15 +60,62 @@ function gameRound(computerPlay,userPlay) {
 }
 
 playButtons.forEach((playButton) => { 
-    playButton.addEventListener('click', function game(){
-        userSelection=this.textContent.toLowerCase();
-        gameRound(computerPlay,userPlay);
-        gameResult.textContent = '';
+    playButton.addEventListener('mouseover', function (){
+        let start = playButton.src;
+        let hover = playButton.getAttribute('alt'); //specified in img tag.
+        playButton.src = hover; 
+        playButton.addEventListener('mouseout', function (){
+        playButton.src = start;
+    })
+    })
 
+    
+    playButton.addEventListener('click', function game(){
+        userSelection=this.getAttribute('id');
+
+        if (isGameRunning){
+
+        gameRound(computerPlay,userPlay);
+        
         if (computerScore===5 || userScore===5){
-            (computerScore===userScore)? gameResult.textContent = "The game ended in a draw:no winner":
-            (computerScore>userScore)? gameResult.textContent ="Computer wins the GAME!" : gameResult.textContent ="Player wins the GAME!";
-            userScore=0;
-            computerScore=0;
+            if (computerScore===userScore){
+                document.querySelector('.score').textContent = "The game ended in a draw:no winner";
+            } else if (computerScore>userScore) {
+                document.querySelector('.score').textContent = "Computer wins the GAME!";
+            } else { 
+                document.querySelector('.score').textContent = "Player wins the GAME!";
+            }
+
+            isGameRunning=false;
+
+            /* playButton.removeEventListener('click', game); */
+
+            function playAgain(){
+                const playAgainButton = document.createElement('button');
+                document.querySelector('.scoreBoard').appendChild(playAgainButton);
+                playAgainButton.textContent = "Another round? Just click!";
+                playAgainButton.addEventListener('click', function() {
+                    isGameRunning=true;
+                    userScore=0;
+                    computerScore=0;
+                    displayScore();
+                    results.removeChild(userResult);
+                    results.removeChild(computerResult);
+                    results.removeChild(miniGameResult);
+                    playAgainButton.remove();
+
+                    
+                })
+            }
+
+            playAgain();
+            
         }
+    }
     })})
+
+   /*  if (computerScore===5 || userScore===5){
+        (computerScore===userScore)? gameResult.textContent = "The game ended in a draw:no winner":
+        (computerScore>userScore)? gameResult.textContent ="Computer wins the GAME!" : gameResult.textContent ="Player wins the GAME!";
+        userScore=0;
+        computerScore=0; */
