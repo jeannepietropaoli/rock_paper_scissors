@@ -30,11 +30,26 @@ h1{
     text-shadow: 2px 2px 2px #ff0000, 5px 7px 5px blue;
 }
 
-.score{
+table, td , th{
     font-weight: bold;
-    font-size: 27px;
+    font-size: 22px;
+    width: 700px;
+    height: auto;
+    border: 1px solid white;
+}
+
+table{
+    border: none;
 }
 
 .results {
     font-size: 18px;
+}
+
+th {
+    height: 50px;
+}
+
+td{
+    height: 30px;
 }

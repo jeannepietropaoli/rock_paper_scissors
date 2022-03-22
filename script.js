@@ -5,43 +5,37 @@ let userScore=0;
 let isGameRunning=true;
 const playButtons = document.querySelectorAll('.button');
 const results = document.querySelector('.results');
+const signScorePlayer = document.querySelector('.signScorePlayer');
+const signScoreComputer = document.querySelector('.signScoreComputer');
+const miniGameResult = document.querySelector('.results');
+const gameReslut=document.querySelector('.gameResult')
+gameReslut.textContent='Who will win the game?';
 
-let userResult = document.createElement('p');
-
-let computerResult = document.createElement('p');
-
-let miniGameResult = document.createElement('p');
-
-let gameResult = document.createElement('p');
-results.appendChild(gameResult); 
-
-
-let score = document.querySelector('.score');
 displayScore()
 
 function displayScore() {
-    score.textContent = `Player = ${userScore} - Computer ${computerScore}`;
+    let scorePlayer = document.querySelector('.scorePlayer');
+    let scoreComputer = document.querySelector('.scoreComputer');
+    scorePlayer.textContent = `${userScore}`;
+    scoreComputer.textContent = `${computerScore}`;
 }
 
 function computerPlay(){
-    results.appendChild(computerResult);   //crée le paragraphe des resultats de Computer
     computerPick= Math.floor(Math.random() * 3);
     (computerPick===0)?computerSelection="rock":
         (computerPick===1)?computerSelection="paper":computerSelection="scissors";
-    computerResult.textContent =`Computer chose ${computerSelection}`;
+    signScoreComputer.textContent = (`Computer chose ${computerSelection}`);
     return computerSelection;
 }
 
 function userPlay(){
-    results.appendChild(userResult);   //crée le paragraphe des resultats de User
-    userResult.textContent = (`Player chose ${userSelection}`);
+    signScorePlayer.textContent = (`Player chose ${userSelection}`);
         return userSelection;
 }
 
 function gameRound(computerPlay,userPlay) {
     userPlay()
     computerPlay();
-    results.appendChild(miniGameResult);     //crée le paragraphe des resultats de chaque MiniGame
 
     if (computerSelection===userSelection){
         miniGameResult.textContent = "The game ended in a draw:no winner";
@@ -74,37 +68,34 @@ playButtons.forEach((playButton) => {
         userSelection=this.getAttribute('id');
 
         if (isGameRunning){
-
         gameRound(computerPlay,userPlay);
         
         if (computerScore===5 || userScore===5){
             if (computerScore===userScore){
-                document.querySelector('.score').textContent = "The game ended in a draw:no winner";
+                gameReslut = document.querySelector('.gameResult').textContent = "The game ended in a draw:no winner";
             } else if (computerScore>userScore) {
-                document.querySelector('.score').textContent = "Computer wins the GAME!";
+                gameReslut.textContent = "Computer wins the GAME!";
             } else { 
-                document.querySelector('.score').textContent = "Player wins the GAME!";
+                gameReslut.textContent = "Player wins the GAME!";
             }
 
             isGameRunning=false;
 
-            /* playButton.removeEventListener('click', game); */
-
             function playAgain(){
                 const playAgainButton = document.createElement('button');
-                document.querySelector('.scoreBoard').appendChild(playAgainButton);
+                document.querySelector('.playAgain').appendChild(playAgainButton);
                 playAgainButton.textContent = "Another round? Just click!";
                 playAgainButton.addEventListener('click', function() {
                     isGameRunning=true;
                     userScore=0;
                     computerScore=0;
                     displayScore();
-                    results.removeChild(userResult);
-                    results.removeChild(computerResult);
-                    results.removeChild(miniGameResult);
+                    signScorePlayer.textContent = '';
+                    signScoreComputer.textContent = '';
+                    miniGameResult.textContent = '';
+                    gameReslut.textContent = '';
                     playAgainButton.remove();
-
-                    
+                    gameReslut.textContent='Who will win the game?';
                 })
             }
 
