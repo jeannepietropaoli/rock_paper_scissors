@@ -12,8 +12,10 @@ const gameReslut=document.querySelector('.gameResult');
 const signScoreLogoPlayer = document.querySelector('.signScoreLogoPlayer');
 const signScoreLogoComputer = document.querySelector('.signScoreLogoComputer');
 gameReslut.textContent='Who will win the game?';
+let winner;
 
-displayScore()
+displayScore();
+higlightWinnerLogo();
 
 function displayScore() {
     let scorePlayer = document.querySelector('.scorePlayer');
@@ -35,7 +37,24 @@ function userPlay(){
         return userSelection;
 }
 
+function higlightWinnerLogo(winner){
+signScoreLogoComputer.addEventListener('mouseover', function higlightC(){
+    if (winner==='computer'){
+    signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black3.png`);
+    signScoreLogoComputer.addEventListener('mouseout', function (){
+        signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black.png`);})
+    }
+
+    signScoreLogoPlayer.addEventListener('mouseover', function higlightP(){
+        if (winner==='player'){
+        signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black3.png`);
+        signScoreLogoPlayer.addEventListener('mouseout', function (){
+            signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black.png`);})
+        } })
+
+
 function gameRound(computerPlay,userPlay) {
+    winner='';
     userPlay()
     computerPlay();
 
@@ -45,10 +64,11 @@ function gameRound(computerPlay,userPlay) {
     else if ((computerSelection==="rock" && userSelection==="scissors")  ||
                  (computerSelection==="paper" && userSelection==="rock") || 
                     (computerSelection==="scissors" && userSelection==="paper")) {
+        winner='computer';
         miniGameResult.textContent = `Computer won: ${computerSelection} beats ${userSelection}!`;
         computerScore++;
-    }
-    else {
+    }else {
+        winner='player';
         miniGameResult.textContent = `Player won: ${userSelection} beats ${computerSelection}!`;
         userScore++;
     }
@@ -68,9 +88,9 @@ playButtons.forEach((playButton) => {
     
     playButton.addEventListener('click', function game(){
         userSelection=this.getAttribute('id');
-
         if (isGameRunning){
-        gameRound(computerPlay,userPlay);
+            gameRound(computerPlay,userPlay);
+            higlightWinnerLogo(winner);
         
         if (computerScore===5 || userScore===5){
             if (computerScore===userScore){
@@ -100,15 +120,7 @@ playButtons.forEach((playButton) => {
                     gameReslut.textContent='Who will win the game?';
                 })
             }
-
             playAgain();
-            
         }
-    }
-    })})
-
-   /*  if (computerScore===5 || userScore===5){
-        (computerScore===userScore)? gameResult.textContent = "The game ended in a draw:no winner":
-        (computerScore>userScore)? gameResult.textContent ="Computer wins the GAME!" : gameResult.textContent ="Player wins the GAME!";
-        userScore=0;
-        computerScore=0; */
+    } }
+    
