@@ -14,8 +14,13 @@ const signScoreLogoPlayer = document.querySelector('.signScoreLogoPlayer');
 const signScoreLogoComputer = document.querySelector('.signScoreLogoComputer');
 gameReslut.textContent='Who will win the game?';
 let winner;
-const compteur = document.createElement('div');
-document.body.appendChild(compteur);
+const compteur = document.querySelector('.playAgain');
+blackText();
+
+function blackText(){
+    compteur.textContent='fill';
+    compteur.style.color='black';
+}
 
 displayScore();
 higlightWinnerLogo();
@@ -85,6 +90,7 @@ function gameRound(computerPlay,userPlay) {
 function playAgain(){
     const playAgainButton = document.createElement('button');
     document.querySelector('.playAgain').appendChild(playAgainButton);
+    playAgainButton.classList.add('neon');
     playAgainButton.textContent = "Another round? Just click!";
     playAgainButton.addEventListener('click', function() {
         isGameRunning=true;
@@ -107,9 +113,10 @@ function displayHoverInfo () {
     console.log(nbMiniGame);
     if (nbMiniGame===1){
         compteur.textContent = 'Fun fact: hover over the scoreboard signs to see the winner\'s sign highlighted';
+        compteur.style.color='white';
     }
-    else if (nbMiniGame>1){
-        compteur.textContent='';
+    else if (nbMiniGame>1 && isGameRunning){
+        blackText()
     }
 }
 
