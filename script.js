@@ -45,24 +45,41 @@ function userPlay(){
     return userSelection;
 }
 
-function higlightWinnerLogo(){
-    signScoreLogoComputer.addEventListener('mouseover', function higlightC(){
-        if (winner==='computer'){
-            signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black3.png`);
-            signScoreLogoComputer.addEventListener('mouseout', function (){
-                signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black.png`);
-            })
-        }
-    })
+function endHighlightC(){
+    if (debug) {
+        signScoreLogoComputer.setAttribute('src','pic/black.jpg');
+    }
+    else {
+        signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black.png`);
+    }
+}
 
-    signScoreLogoPlayer.addEventListener('mouseover', function higlightP(){
-        if (winner==='player'){
-            signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black3.png`);
-            signScoreLogoPlayer.addEventListener('mouseout', function (){
-                signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black.png`);
-            })
-        }
-    })
+function highlightC(){
+    if (winner==='computer'){
+        signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black3.png`);
+        signScoreLogoComputer.addEventListener('mouseout', endHighlightC)
+    }
+}
+
+function endHighlightP(){
+    if (debug) {
+        signScoreLogoPlayer.setAttribute('src','pic/black.jpg');
+    }
+    else{    
+        signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black.png`);
+    }
+}
+
+function highlightP(){
+    if (winner==='player'){
+        signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black3.png`);
+        signScoreLogoPlayer.addEventListener('mouseout', endHighlightP)
+    }
+}
+
+function higlightWinnerLogo(){
+    signScoreLogoComputer.addEventListener('mouseover', highlightC);
+    signScoreLogoPlayer.addEventListener('mouseover', highlightP);
 }
     
 function gameRound(computerPlay,userPlay) {
@@ -87,12 +104,25 @@ function gameRound(computerPlay,userPlay) {
     displayScore();
 }
 
+let debug=false;
+
 function playAgain(){
     const playAgainButton = document.createElement('button');
     document.querySelector('.playAgain').appendChild(playAgainButton);
     playAgainButton.classList.add('neon');
     playAgainButton.textContent = "Another round? Just click!";
     playAgainButton.addEventListener('click', function() {
+
+        debug=true;
+       
+        signScoreLogoComputer.removeEventListener('mouseover', highlightC);
+        signScoreLogoPlayer.removeEventListener('mouseover', highlightP); 
+
+
+        /* signScoreLogoPlayer.removeEventListener('mouseout', endHighlightC);
+
+        signScoreLogoComputer.removeEventListener('mouseout', endHighlightP);   */
+
         isGameRunning=true;
         userScore=0;
         computerScore=0;
@@ -131,6 +161,7 @@ playButtons.forEach ((playButton) => {
     })
     
     playButton.addEventListener('click', function game(){
+        debug=false;
         userSelection=this.getAttribute('id');
         displayHoverInfo();
         if (isGameRunning){
