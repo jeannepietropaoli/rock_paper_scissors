@@ -5,25 +5,20 @@
     src: url(Warnes-Regular.ttf);
 }
 
-*{
+* {
     background-color: black;
     color: white;
-    box-shadow: none;
-    border:none;
     font-family: 'neon', cursive;
-    
 }
 
-body{
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
     height: 100vh;
-    
     overflow-x: hidden;
 }
-
 
 .container {
     display: flex;
@@ -33,30 +28,13 @@ body{
     box-sizing: border-box;
     gap: 10px;
     flex-wrap: wrap;
-    padding: 0px 150px;
+    padding: 0px 180px;
+    width: 100vw;
 }
 
 .button {
-    margin: 0px auto 0px auto;
     height: 260px;
     width: 260px;
-    
-}
-
-.buttons {
-    width: 100%;
-    display: flex;
-    box-sizing: border-box;
-    margin:0px;
-}
-
-.container div {
-    align-items: center;
-    display: flex;
-}
-
-.container img{
-    flex: 1 1 auto;
 }
 
 .button:hover {
@@ -68,14 +46,12 @@ body{
     border-bottom: solid blue 4px;
     height: 8px;
     width: 100%;
-    
 }
 
 .footer{
     border-top: solid blue 4px;
     border-bottom: red solid 8px;
     width: 100%;
-    margin-top: auto;
 }
 
 h1{
@@ -87,15 +63,13 @@ h1{
     0 0 110px red,
     0 0 180px blueviolet,
     0 0 200px blue;
-    font-family: 'neon', cursive;
     text-shadow: 2px 2px 2px #ff0000, 5px 7px 5px blue;
     margin-bottom: 0px;
 }
 
 h2{
-    font-family: 'neon', cursive;
     text-align: center;
-    text-shadow: 5px 7px 5px blue;
+    text-shadow: 2px 2px 2px #ff0000, 4px 4px 4px yellow;
     margin-top: 20px;
     margin-bottom: 15px;
 }
@@ -110,28 +84,11 @@ table, td , th{
 }
 
 .scorePlayer,
-.scoreComputer{
+.scoreComputer,
+.signScorePlayer,
+.signScoreComputer,
+.gameResult{
     border: none;
-}
-
-#thPlayer {
-    outline: none;
-    
-    font-size: 22px;
-}
-
-#thComputer{
-    outline: none;
-    
-    font-size: 22px;
-}
-
-.signScorePlayer{
-    border-color: black;
-}
-
-.signScoreComputer {
-    border-color: black;
 }
 
 .gameResult{
@@ -144,7 +101,6 @@ table, td , th{
     0 0 180px blueviolet,
     0 0 200px blue;
     text-shadow: 2px 2px 2px #ff0000, 5px 7px 5px blue;
-    border: none;
     box-shadow: none;
 }
 
@@ -161,6 +117,11 @@ table{
     margin: 0;
     border: 1px solid red;
     box-shadow: 0 0 0 1px blue;
+}
+
+.signScorePlayer,
+.signScoreComputer{
+    padding: 20px;
 }
 
 th {
@@ -188,27 +149,27 @@ table img {
     text-shadow: 2px 2px 2px #ff0000, 5px 7px 5px yellow;
 }
 
-.element{
-    flex: 1;
-    height: auto;
-    display: flex;
-    flex-direction: column;
+.playAgain{
+    font-size: 16px;
 }
 
-.playAgain{
-    font-size: 12px;
+.playAgainHover:hover {
+    cursor: pointer;
 }
 
 .tableau {
     width: 100vh;
     align-items: center;
-}
-
-.button{
-    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 td, th {
     border: 1px solid red;
     box-shadow: 0 0 0 1px blue;
+}
+
+.addGlow {
+    outline: none;
+    box-shadow: 0 0 50px #9ecaed;
 }

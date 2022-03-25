@@ -13,17 +13,16 @@ const gameReslut=document.querySelector('.gameResult');
 const signScoreLogoPlayer = document.querySelector('.signScoreLogoPlayer');
 const signScoreLogoComputer = document.querySelector('.signScoreLogoComputer');
 gameReslut.textContent='Who will win the game?';
-let winner;
 const compteur = document.querySelector('.playAgain');
-blackText();
+const thPlayer = document.querySelector('.thPlayer');
+const thComputer = document.querySelector('.thComputer');
+let winner;
+let stopGlow=false;
 
 function blackText(){
     compteur.textContent='fill';
     compteur.style.color='black';
 }
-
-displayScore();
-higlightWinnerLogo();
 
 function displayScore() {
     let scorePlayer = document.querySelector('.scorePlayer');
@@ -33,7 +32,7 @@ function displayScore() {
 }
 
 function computerPlay(){
-    computerPick= Math.floor(Math.random() * 3);
+    let computerPick= Math.floor(Math.random() * 3);
     (computerPick===0)?computerSelection="rock":
         (computerPick===1)?computerSelection="paper":computerSelection="scissors";
     signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black.png`);
@@ -45,15 +44,6 @@ function userPlay(){
     return userSelection;
 }
 
-function endHighlightC(){
-    if (debug) {
-        signScoreLogoComputer.setAttribute('src','pic/black.jpg');
-    }
-    else {
-        signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black.png`);
-    }
-}
-
 function highlightC(){
     if (winner==='computer'){
         signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black3.png`);
@@ -61,12 +51,12 @@ function highlightC(){
     }
 }
 
-function endHighlightP(){
-    if (debug) {
-        signScoreLogoPlayer.setAttribute('src','pic/black.jpg');
+function endHighlightC(){
+    if (stopGlow) {
+        signScoreLogoComputer.setAttribute('src','pic/black.jpg');
     }
-    else{    
-        signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black.png`);
+    else {
+        signScoreLogoComputer.setAttribute('src',`pic/${computerSelection}_neon_black.png`);
     }
 }
 
@@ -74,6 +64,15 @@ function highlightP(){
     if (winner==='player'){
         signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black3.png`);
         signScoreLogoPlayer.addEventListener('mouseout', endHighlightP)
+    }
+}
+
+function endHighlightP(){
+    if (stopGlow) {
+        signScoreLogoPlayer.setAttribute('src','pic/black.jpg');
+    }
+    else{    
+        signScoreLogoPlayer.setAttribute('src',`pic/${userSelection}_neon_black.png`);
     }
 }
 
@@ -88,7 +87,7 @@ function gameRound(computerPlay,userPlay) {
     computerPlay();
 
     if (computerSelection===userSelection){
-        miniGameResult.textContent = "The game ended in a draw:no winner";
+        miniGameResult.textContent = "Tie game : no winner";
     }
     else if ((computerSelection==="rock" && userSelection==="scissors")  ||
                  (computerSelection==="paper" && userSelection==="rock") || 
@@ -104,24 +103,20 @@ function gameRound(computerPlay,userPlay) {
     displayScore();
 }
 
-let debug=false;
-
 function playAgain(){
-    const playAgainButton = document.createElement('button');
+    const playAgainButton = document.createElement('span');
     document.querySelector('.playAgain').appendChild(playAgainButton);
     playAgainButton.classList.add('neon');
+    playAgainButton.classList.add('playAgainHover');
     playAgainButton.textContent = "Another round? Just click!";
     playAgainButton.addEventListener('click', function() {
+        stopGlow=true;
 
-        debug=true;
+        (winner==='computer')? thComputer.classList.remove('addGlow'):
+        thPlayer.classList.remove('addGlow'); 
        
         signScoreLogoComputer.removeEventListener('mouseover', highlightC);
         signScoreLogoPlayer.removeEventListener('mouseover', highlightP); 
-
-
-        /* signScoreLogoPlayer.removeEventListener('mouseout', endHighlightC);
-
-        signScoreLogoComputer.removeEventListener('mouseout', endHighlightP);   */
 
         isGameRunning=true;
         userScore=0;
@@ -135,14 +130,13 @@ function playAgain(){
         gameReslut.textContent='Who will win the game?';
         nbMiniGame=0;
     }) 
-    
 }
 
 function displayHoverInfo () {
     nbMiniGame++;
     console.log(nbMiniGame);
     if (nbMiniGame===1){
-        compteur.textContent = 'Fun fact: hover over the scoreboard signs to see the winner\'s sign highlighted';
+        compteur.textContent = 'Psst! Hover over the scoreboard pictures to see the winner\'s choice highlighted';
         compteur.style.color='white';
     }
     else if (nbMiniGame>1 && isGameRunning){
@@ -150,12 +144,18 @@ function displayHoverInfo () {
     }
 }
 
+/* end of functions init */
+
+blackText();
+displayScore();
+higlightWinnerLogo();
+
 playButtons.forEach ((playButton) => { 
-    playButton.addEventListener('mouseover', function (){
+    playButton.addEventListener('mouseover', function highlightPlayButtons(){
         let start = playButton.src;
         let hover = playButton.getAttribute('alt'); //specified in img tag.
         playButton.src = hover; 
-        playButton.addEventListener('mouseout', function (){
+        playButton.addEventListener('mouseout', function stopHighlghtPlayButtons(){
             playButton.src = start;
         })
     })
@@ -170,18 +170,18 @@ playButtons.forEach ((playButton) => {
             
         
         if (computerScore===5 || userScore===5){
-            if (computerScore===userScore){
-                gameReslut = document.querySelector('.gameResult').textContent = "The game ended in a draw:no winner";
-            } else if (computerScore>userScore) {
+            if (computerScore>userScore) {
+                thComputer.classList.add('addGlow');
                 gameReslut.textContent = "Computer wins the GAME!";
+                
             } else { 
+                thPlayer.classList.add('addGlow');
                 gameReslut.textContent = "Player wins the GAME!";
             }
             playAgain();
             isGameRunning=false;
         }
-    } 
-    })
+    }})
 })
        
 
