@@ -161,7 +161,7 @@ playButtons.forEach ((playButton) => {
     })
     
     playButton.addEventListener('click', function game(){
-        debug=false;
+        stopGlow=false;
         userSelection=this.getAttribute('id');
         displayHoverInfo();
         if (isGameRunning){
@@ -183,5 +183,3 @@ playButtons.forEach ((playButton) => {
         }
     }})
 })
-       
-
